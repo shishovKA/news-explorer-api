@@ -6,10 +6,18 @@ module.exports.getArticles = (req, res, next) => {
   const ownerId = req.user._id;
   Article.AddOwnerId()
     .then((articles) => {
+      
       const meArticles = articles.filter((article,i) => {
         return article.owner.equals(ownerId)
       })
-      res.send({ data: meArticles })
+      
+      const meArticlesNoOwner = meArticles.map((article) => {
+        article = article.toObject();
+        delete article.owner;
+        return article;
+      });
+
+      res.send({ data: meArticlesNoOwner })
     })
     .catch(next);
 };
@@ -31,6 +39,8 @@ module.exports.delArticleById = (req, res, next) => {
       if (!article.owner.equals(req.user._id)) throw new ForbiddenError('Вы не можете удалять чужую статью');
       Article.findByIdAndRemove(articleId)
         .then((article) => {
+          article = article.toObject();
+          delete article.owner;
           return res.send({ data: article });
         })})
     .catch(next);
