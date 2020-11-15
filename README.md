@@ -9,5 +9,6 @@
 *  npm run dev - запускаем сервер на localhost:3000 с хот релоудом
 
 ### Как найти сервер:
-*  84.201.165.240 - можем обращаться по публичному айпи
-*  http://back-news-api.students.nomoreparties.co - обращаемся к серверу через доменное имя
+*  84.201.161.164 - можем обращаться по публичному айпи
+*  http://newsShishovKA.students.nomoreparties.co - обращаемся к серверу через доменное имя
+*  http://www.newsShishovKA.students.nomoreparties.co - обращаемся к серверу через доменное имя
