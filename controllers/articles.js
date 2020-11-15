@@ -6,11 +6,11 @@ module.exports.getArticles = (req, res, next) => {
   const ownerId = req.user._id;
   Article.AddOwnerId()
     .then((articles) => {
-      
-      const meArticles = articles.filter((article,i) => {
+
+      const meArticles = articles.filter((article, i) => {
         return article.owner.equals(ownerId)
       })
-      
+
       const meArticlesNoOwner = meArticles.map((article) => {
         article = article.toObject();
         delete article.owner;
@@ -31,7 +31,6 @@ module.exports.createArticle = (req, res, next) => {
 };
 
 module.exports.delArticleById = (req, res, next) => {
-  const ownerId = req.user._id;
   const { articleId } = req.params;
   Article.FindArticleById(articleId)
     .then((article) => {
@@ -42,6 +41,7 @@ module.exports.delArticleById = (req, res, next) => {
           article = article.toObject();
           delete article.owner;
           return res.send({ data: article });
-        })})
+        })
+    })
     .catch(next);
 };

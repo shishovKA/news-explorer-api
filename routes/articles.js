@@ -5,7 +5,6 @@ const {
   getArticles,
   createArticle,
   delArticleById,
-  checkOwner,
 } = require('../controllers/articles.js');
 
 const articleValid = celebrate({
@@ -16,17 +15,17 @@ const articleValid = celebrate({
     date: Joi.string().required(),
     source: Joi.string().required(),
     link: Joi.string().required().custom((value, helper) => {
-        if (!validator.isURL(value)) {
-          return helper.message('поле link должно быть корректной ссылкой');
-        }
-        return value;
-      }),
+      if (!validator.isURL(value)) {
+        return helper.message('поле link должно быть корректной ссылкой');
+      }
+      return value;
+    }),
     image: Joi.string().required().custom((value, helper) => {
-        if (!validator.isURL(value)) {
-          return helper.message('поле link должно быть корректной ссылкой');
-        }
-        return value;
-      }),    
+      if (!validator.isURL(value)) {
+        return helper.message('поле link должно быть корректной ссылкой');
+      }
+      return value;
+    }),
   }),
 });
 
