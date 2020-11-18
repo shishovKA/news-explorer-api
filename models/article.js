@@ -6,15 +6,11 @@ const articleSchema = new mongoose.Schema({
   keyword: {
     type: String,
     required: true,
-    minlength: 2,
-    maxlength: 30,
   },
 
   title: {
     type: String,
     required: true,
-    minlength: 2,
-    maxlength: 30,
   },
 
   text: {
@@ -61,14 +57,28 @@ const articleSchema = new mongoose.Schema({
 
 });
 
-articleSchema.statics.AddOwnerId = function () {
-  return this.find().select('+owner')
-    .then((articles) => articles);
+const findArticlesByOwnerId = function findArticlesByOwnerId(ownerId) {
+  return this.find()
+    .select('+owner')
+    .then((articles) => {
+      const meArticles = articles.filter((article) => article.owner.equals(ownerId));
+      const meArticlesNoOwner = meArticles.map((article) => {
+        const articleObj = article.toObject();
+        delete articleObj.owner;
+        return articleObj;
+      });
+      return meArticlesNoOwner;
+    });
 };
 
-articleSchema.statics.FindArticleById = function (articleId) {
-  return this.findById(articleId).select('+owner')
+articleSchema.statics.FindArticlesByOwnerId = findArticlesByOwnerId;
+
+const findArticleById = function findArticleById(articleId) {
+  return this.findById(articleId)
+    .select('+owner')
     .then((article) => article);
 };
+
+articleSchema.statics.FindArticleById = findArticleById;
 
 module.exports = mongoose.model('article', articleSchema);

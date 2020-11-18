@@ -4,17 +4,9 @@ const ForbiddenError = require('../errors/forbidden-err');
 
 module.exports.getArticles = (req, res, next) => {
   const ownerId = req.user._id;
-  Article.AddOwnerId()
+  Article.FindArticlesByOwnerId(ownerId)
     .then((articles) => {
-      const meArticles = articles.filter((article) => article.owner.equals(ownerId));
-
-      const meArticlesNoOwner = meArticles.map((article) => {
-        const articleObj = article.toObject();
-        delete articleObj.owner;
-        return articleObj;
-      });
-
-      res.send({ data: meArticlesNoOwner });
+      res.send({ data: articles });
     })
     .catch(next);
 };

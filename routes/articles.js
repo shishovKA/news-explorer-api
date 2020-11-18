@@ -9,8 +9,8 @@ const {
 
 const articleValid = celebrate({
   body: Joi.object().keys({
-    keyword: Joi.string().required().min(2).max(30),
-    title: Joi.string().required().min(2).max(30),
+    keyword: Joi.string().required(),
+    title: Joi.string().required(),
     text: Joi.string().required(),
     date: Joi.string().required(),
     source: Joi.string().required(),
@@ -22,7 +22,7 @@ const articleValid = celebrate({
     }),
     image: Joi.string().required().custom((value, helper) => {
       if (!validator.isURL(value)) {
-        return helper.message('поле link должно быть корректной ссылкой');
+        return helper.message('поле image должно быть корректной ссылкой');
       }
       return value;
     }),
