@@ -2,10 +2,8 @@ const router = require('express').Router();
 const { celebrate, Joi, errors } = require('celebrate');
 const bodyParser = require('body-parser');
 const auth = require('../middlewares/auth');
-
 const routesUsers = require('./users');
 const routesArticles = require('./articles.js');
-
 const { requestLogger, errorLogger } = require('../middlewares/logger');
 
 //  импортируем контроллеры для создания User и Login

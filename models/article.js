@@ -61,20 +61,14 @@ const articleSchema = new mongoose.Schema({
 
 });
 
-
 articleSchema.statics.AddOwnerId = function () {
   return this.find().select('+owner')
-    .then((articles) => {
-      return articles
-    });
+    .then((articles) => articles);
 };
 
 articleSchema.statics.FindArticleById = function (articleId) {
   return this.findById(articleId).select('+owner')
-    .then((article) => {
-      console.log('statics.FindArticleById', article)
-      return article;
-    })
+    .then((article) => article);
 };
 
 module.exports = mongoose.model('article', articleSchema);
