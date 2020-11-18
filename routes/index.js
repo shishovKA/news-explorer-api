@@ -41,8 +41,9 @@ router.use('/articles', auth, routesArticles);
 router.post('/signup', userCreateValid, createUser);
 router.post('/signin', loginValid, login);
 router.use(errorLogger);
+
+router.use(errCatcher);
 router.use(errorNotFound);
 router.use(errors());
-router.use(errCatcher);
 
 module.exports = router;
