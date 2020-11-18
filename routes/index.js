@@ -71,7 +71,7 @@ router.post('/signin', loginValid, login);
 router.use(errorLogger);
 
 router.use(errors());
-router.use(errCatcher);
 router.use(errorNotFound);
+router.use(errCatcher);
 
 module.exports = router;
