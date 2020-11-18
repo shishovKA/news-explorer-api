@@ -13,46 +13,38 @@ const { createUser, login } = require('../controllers/users.js');
 
 // валидаторы запросов
 const userCreateValid = celebrate({
-    body: Joi.object().keys({
-        email: Joi.string().required().email(),
-        password: Joi.string().required().pattern(new RegExp('^[a-zA-Z0-9]{8,32}$')),
-        name: Joi.string().required().min(2).max(30),
-    }),
+  body: Joi.object().keys({
+    email: Joi.string().required().email(),
+    password: Joi.string().required().pattern(new RegExp('^[a-zA-Z0-9]{8,32}$')),
+    name: Joi.string().required().min(2).max(30),
+  }),
 });
 
 const loginValid = celebrate({
-    body: Joi.object().keys({
-        email: Joi.string().required().email(),
-        password: Joi.string().required().pattern(new RegExp('^[a-zA-Z0-9]{8,32}$'))
-    }),
+  body: Joi.object().keys({
+    email: Joi.string().required().email(),
+    password: Joi.string().required().pattern(new RegExp('^[a-zA-Z0-9]{8,32}$')),
+  }),
 });
 
 const errCatcher = require('../middlewares/err-catcher');
 
 const NotFoundError = require('../errors/not-found-err');
+
 const errorNotFound = (req, res, next) => {
-    next(new NotFoundError('Запрашиваемый ресурс не найден'));
+  next(new NotFoundError('Запрашиваемый ресурс не найден'));
 };
 
 router.use(bodyParser.json());
-
-
-
 router.use(bodyParser.urlencoded({ extended: true }));
-
 router.use(requestLogger);
-
 router.use('/users', auth, routesUsers);
 router.use('/articles', auth, routesArticles);
 router.post('/signup', userCreateValid, createUser);
 router.post('/signin', loginValid, login);
-
 router.use(errorLogger);
-
 router.use(errorNotFound);
 router.use(errors());
-
-
 router.use(errCatcher);
 
 module.exports = router;
