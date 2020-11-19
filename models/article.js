@@ -57,22 +57,6 @@ const articleSchema = new mongoose.Schema({
 
 });
 
-const findArticlesByOwnerId = function findArticlesByOwnerId(ownerId) {
-  return this.find()
-    .select('+owner')
-    .then((articles) => {
-      const meArticles = articles.filter((article) => article.owner.equals(ownerId));
-      const meArticlesNoOwner = meArticles.map((article) => {
-        const articleObj = article.toObject();
-        delete articleObj.owner;
-        return articleObj;
-      });
-      return meArticlesNoOwner;
-    });
-};
-
-articleSchema.statics.FindArticlesByOwnerId = findArticlesByOwnerId;
-
 const findArticleById = function findArticleById(articleId) {
   return this.findById(articleId)
     .select('+owner')

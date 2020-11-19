@@ -4,7 +4,7 @@ const ForbiddenError = require('../errors/forbidden-err');
 
 module.exports.getArticles = (req, res, next) => {
   const ownerId = req.user._id;
-  Article.FindArticlesByOwnerId(ownerId)
+  Article.find({ owner: ownerId })
     .then((articles) => {
       res.send({ data: articles });
     })
